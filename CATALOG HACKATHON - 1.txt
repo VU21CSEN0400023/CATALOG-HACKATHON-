@@ -1,0 +1,79 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+class Patient {
+    private String name;
+    private int age;
+    private String healthReport;
+
+    public Patient(String name, int age, String healthReport) {
+        this.name = name;
+        this.age = age;
+        this.healthReport = healthReport;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Age: " + age + ", Health Report: " + healthReport;
+    }
+}
+
+public class HealthMonitoringSystem {
+    private static Map<String, Patient> patientDatabase = new HashMap<>();
+
+    public static void addPatientData(String id, Patient patient) {
+        patientDatabase.put(id, patient);
+        System.out.println("Patient data added successfully.");
+    }
+
+    public static void viewPatientData(String id) {
+        Patient patient = patientDatabase.get(id);
+        if (patient != null) {
+            System.out.println(patient);
+        } else {
+            System.out.println("No records found for ID: " + id);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Add Patient Data");
+            System.out.println("2. View Patient Data");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Patient ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter Patient Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Patient Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline
+                    System.out.print("Enter Health Report: ");
+                    String healthReport = scanner.nextLine();
+                    addPatientData(id, new Patient(name, age, healthReport));
+                    break;
+
+                case 2:
+                    System.out.print("Enter Patient ID to view: ");
+                    String viewId = scanner.nextLine();
+                    viewPatientData(viewId);
+                    break;
+
+                case 3:
+                    System.out.println("Exiting the system.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
